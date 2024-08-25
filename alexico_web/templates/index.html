@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador Lexico</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+<body>
+    <form method="post">
+        <label for="Expresion">Expresion</label>
+        <input type="text" name="Expresion" id="Expresion">
+        <br>
+        <input type="submit" value="Analizar">
+    </form>
+    <div class="contenedor">
+        <div class="contenedor_2">
+            {% if tokens %}
+                {% for caracter, simbolo in tokens %}
+                    <p>{{caracter}}  {{ simbolo}}</p>
+                    {% endfor %}
+            {% else %}
+            <p>No se encontraron tokens</p>
+            {% endif %}
+        </div>
+        <div class="contenedor_tabla">
+            <table>
+                {% if tokens %}
+                    <tr>
+                        <th>caracteres</th>
+                        <th>simbolos</th>
+                    </tr>
+                    {% for caracter, simbolo in tokens %}
+                    <tr>
+                        <td>{{ caracter}}</td>
+                        <td>{{ simbolo}}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr><td colspan="2">No se encontro tokens</td></tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <script>
+        document.getElementById('file').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('code').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        });
+    </script>
+</body>
+</html>
